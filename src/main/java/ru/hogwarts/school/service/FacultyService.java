@@ -24,6 +24,7 @@ public class FacultyService {
     public Faculty findFaculty(long id) {
         return facultyRepository.findById(id).get();
     }
+
     public Collection<Faculty> findFacultyAll() {
         return facultyRepository.findAll();
     }

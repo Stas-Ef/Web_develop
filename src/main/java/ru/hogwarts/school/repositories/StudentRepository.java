@@ -5,8 +5,9 @@ import ru.hogwarts.school.model.Student;
 
 import java.util.List;
 
-public interface StudentRepository extends JpaRepository<Student,Long> {
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    List<Student> findByNameIgnoreCase (String name);
-    List<Student> findByAge (int age);
+    List<Student> findByNameIgnoreCase(String name);
+
+    List<Student> findByAge(int age);
 }

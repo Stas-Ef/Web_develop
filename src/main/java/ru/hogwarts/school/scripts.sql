@@ -10,6 +10,6 @@ where name  Ilike ('%о%')
 
 select name from student where age<id --Получить всех студентов, у которых возраст меньше идентификатора.
 
-select name from student order by age --Получить всех студентов упорядоченных по возрасту.
+select name from student order by age --Получить всех студентов упорядоченных по  возрасту.
 
 

@@ -15,7 +15,7 @@ public class Student {
     private String name;
     private int age;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "faculty_id")
     @JsonIgnore
     private Faculty faculty;
@@ -23,8 +23,8 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, int age) {
-        this.id = id;
+    public Student( String name, int age) {
+
         this.name = name;
         this.age = age;
     }
@@ -51,6 +51,10 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public Faculty getFaculty() {

@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
@@ -11,6 +12,7 @@ import java.util.Collection;
 
 @Service
 public class StudentService {
+    @Autowired
     private final StudentRepository studentRepository;
 
 
@@ -19,16 +21,20 @@ public class StudentService {
     }
 
     public Student addStudent(Student student) {
-
+        if (student == null) {
+            throw new IllegalArgumentException("Student must not be null");
+        }
         return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
-        return studentRepository.findById(id).get();
+        return studentRepository.findById(id).orElse(null);
     }
 
     public Student editStudent(Student student) {
-
+        if (student.getId() == null || !studentRepository.existsById(student.getId())) {
+            throw new EntityNotFoundException("Student not found");
+        }
         return studentRepository.save(student);
     }
 
@@ -47,6 +53,7 @@ public class StudentService {
     public Collection<Student> findByAgeBetween(int ageMin, int ageMax) {
         return studentRepository.findByAgeBetween(ageMin, ageMax);
     }
+
     public Faculty getFacultyByStudentId(Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));

@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.StudentRepository;
 import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
@@ -19,7 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
-
+import java.util.List;
 
 
 @RestController
@@ -28,11 +29,13 @@ public class StudentController {
 
     private final StudentService studentService;
     private final AvatarService avatarService;
+    private final StudentRepository studentRepository;
 
 
-    public StudentController(StudentService studentService, AvatarService avatarService) {
+    public StudentController(StudentService studentService, AvatarService avatarService, StudentRepository studentRepository) {
         this.studentService = studentService;
         this.avatarService = avatarService;
+        this.studentRepository = studentRepository;
     }
 
     @GetMapping("{id}")
@@ -126,5 +129,18 @@ public class StudentController {
         }
 
 
+    }
+    @GetMapping("/count")
+    public long getStudentsCount() {
+        return studentRepository.getStudentsCount();
+    }
+    @GetMapping("/average-age")
+    public double getAverageAge() {
+        Double avg = studentRepository.getAverageAge();
+        return avg == null ? 0.0 : avg;
+    }
+    @GetMapping("/last-five")
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.findLastFiveStudents();
     }
 }

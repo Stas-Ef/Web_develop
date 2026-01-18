@@ -27,7 +27,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
-    private static final Logger log = LoggerFactory.getLogger(AvatarService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AvatarService.class);
     @Value("${student.avatar.dir.path}")
     private String avatarsDir;
 
@@ -40,11 +40,18 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
+        logger.info("Was invoked method for upload avatar for studentId={}", studentId);
         Student student = studentService.findStudent(studentId);
-
+        if (student == null) {
+            logger.error("There is no student with id={}", studentId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         Path filePath = Path.of(avatarsDir, studentId + "." + getExtension(file.getOriginalFilename()));
+        logger.debug("Avatar file path resolved: {}", filePath);
+
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
+
         try (InputStream is = file.getInputStream();
              OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
@@ -58,12 +65,17 @@ public class AvatarService {
         avatar.setFileSize(file.getSize());
         avatar.setMediaType(file.getContentType());
         avatar.setPreview(generateImagePreview(filePath));
+
         avatarRepository.save(avatar);
+        logger.info("Avatar successfully saved for studentId={}", studentId);
     }
 
     public Avatar findAvatar(long studentId) {
+        logger.info("Was invoked method for find avatar by studentId={}", studentId);
         return avatarRepository.findByStudentId(studentId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> { logger.error("Avatar not found for studentId={}", studentId);
+        return new ResponseStatusException(HttpStatus.NOT_FOUND);
+    });
     }
 
     private byte[] generateImagePreview(Path filePath) throws IOException {

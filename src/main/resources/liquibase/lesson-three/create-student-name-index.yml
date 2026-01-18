@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-student-name-index
+      author: sv.efimenko
+      comment: Индекс для ускорения поиска студентов по имени
+      changes:
+        - createIndex:
+            indexName: idx_student_name
+            tableName: student
+            columns:
+              - column:
+                  name: name

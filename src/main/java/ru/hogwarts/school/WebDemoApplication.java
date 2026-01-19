@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @OpenAPIDefinition
 public class WebDemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WebDemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WebDemoApplication.class, args);
+    }
 
 }

@@ -138,10 +138,11 @@ public class StudentController {
     }
 
     @GetMapping("/sum")
-    public int getSum() {
-        return Stream.iterate(1, a -> a + 1)
-                .limit(1_000_000)
-                .parallel()
-                .reduce(0, Integer::sum);
+    public long getSum() {
+        long sum = 0;
+        for (int i = 1; i <= 1_000_000; i++) {
+            sum += i;
+        }
+        return sum;
     }
 }

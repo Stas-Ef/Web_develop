@@ -144,4 +144,61 @@ public class StudentController {
                 .parallel()
                 .reduce(0, Integer::sum);
     }
+    @GetMapping("/print-parallel")
+    public void printStudentsParallel() {
+
+        List<Student> students = studentService.findStudentAll()
+                .stream()
+                .limit(6)
+                .toList();
+
+
+        System.out.println(Thread.currentThread().getName() + ": " + students.get(0).getName());
+        System.out.println(Thread.currentThread().getName() + ": " + students.get(1).getName());
+
+
+        Thread thread1 = new Thread(() -> {
+            System.out.println(Thread.currentThread().getName() + ": " + students.get(2).getName());
+            System.out.println(Thread.currentThread().getName() + ": " + students.get(3).getName());
+        });
+
+
+        Thread thread2 = new Thread(() -> {
+            System.out.println(Thread.currentThread().getName() + ": " + students.get(4).getName());
+            System.out.println(Thread.currentThread().getName() + ": " + students.get(5).getName());
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+    private synchronized void printName(String name) {
+        System.out.println(Thread.currentThread().getName() + ": " + name);
+    }
+    @GetMapping("/print-synchronized")
+    public void printStudentsSynchronized() {
+
+        List<Student> students = studentService.findStudentAll()
+                .stream()
+                .limit(6)
+                .toList();
+
+
+        printName(students.get(0).getName());
+        printName(students.get(1).getName());
+
+
+        Thread thread1 = new Thread(() -> {
+            printName(students.get(2).getName());
+            printName(students.get(3).getName());
+        });
+
+
+        Thread thread2 = new Thread(() -> {
+            printName(students.get(4).getName());
+            printName(students.get(5).getName());
+        });
+
+        thread1.start();
+        thread2.start();
+    }
 }

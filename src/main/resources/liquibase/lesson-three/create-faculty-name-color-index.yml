@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-faculty-name-color-index
+      author: sv.efimenko
+      comment: Индекс для поиска факультетов по названию и цвету
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          indexExists:
+            indexName: idx_faculty_name_color
+            tableName: faculty
+      changes:
+        - createIndex:
+            indexName: idx_faculty_name_color
+            tableName: faculty
+            columns:
+              - column:
+                  name: name
+              - column:
+                  name: color

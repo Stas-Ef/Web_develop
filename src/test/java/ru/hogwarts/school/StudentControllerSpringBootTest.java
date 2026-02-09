@@ -20,24 +20,22 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 
-import org.springframework.mock.web.MockMultipartFile;
+
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 
-import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.AvatarRepository;
 import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
-import ru.hogwarts.school.service.AvatarService;
+
 import ru.hogwarts.school.service.StudentService;
 
 import javax.imageio.ImageIO;
